@@ -1,0 +1,57 @@
+&lt;?xml version="1.0" encoding="utf-8" standalone="yes"?&gt;
+<Trip>
+  <ID>0</ID>
+  <Date>
+    <Year>2018</Year>
+    <Month>4</Month>
+    <Day>20</Day>
+  </Date>
+  <Vendor>69</Vendor>
+  <Purchase>
+    <Item>1</Item>
+    <Entity>5</Entity>
+    <Cost>3.95</Cost>
+    <Tax>0.095</Tax>
+    <Tip>0</Tip>
+    <AddOn>
+      <Reason>Boba</Reason>
+      <Price>0.5</Price>
+    </AddOn>
+    <Note>Quarter Sugar</Note>
+    <Note>No ice</Note>
+  </Purchase>
+  <Purchase>
+    <Item>4</Item>
+    <Entity>5</Entity>
+    <Cost>3.95</Cost>
+    <Tax>0.095</Tax>
+    <Tip>0</Tip>
+    <AddOn>
+      <Reason>Boba</Reason>
+      <Price>0.5</Price>
+    </AddOn>
+    <Note>No ice</Note>
+  </Purchase>
+  <Purchase>
+    <Item>1</Item>
+    <Entity>12</Entity>
+    <Cost>3.95</Cost>
+    <Tax>0.095</Tax>
+    <Tip>0</Tip>
+    <Note>Half Sugar</Note>
+    <Note>No ice</Note>
+  </Purchase>
+  <Purchase>
+    <Item>7</Item>
+    <Entity>17</Entity>
+    <Cost>3.95</Cost>
+    <Tax>0.095</Tax>
+    <Tip>0</Tip>
+    <AddOn>
+      <Reason>Lychee Jelly</Reason>
+      <Price>0.5</Price>
+    </AddOn>
+    <Note>Half Sugar</Note>
+    <Note>No ice</Note>
+  </Purchase>
+</Trip>
