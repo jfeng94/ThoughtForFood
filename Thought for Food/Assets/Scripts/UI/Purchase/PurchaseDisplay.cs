@@ -8,9 +8,7 @@ public class PurchaseDisplay : Display {
 	[SerializeField] private InputField buyerName; 
 	[SerializeField] private InputField itemName; 
 
-	[SerializeField] private GameObject headerBorder; 
-
-	[SerializeField] private GameObject detailsRegion; 
+	[SerializeField] private GameObject footer; 
 
 	[SerializeField] private Text totalPrice; 
 
@@ -19,14 +17,14 @@ public class PurchaseDisplay : Display {
 	[SerializeField] private Toggle taxable; 
 
 
-	[SerializeField] private BasePriceField     basePriceField;
-	[SerializeField] private PurchaseAddOnField prototypeAddOnRegion;
-	[SerializeField] private PurchaseNoteField  prototypeNoteRegion;
+	[SerializeField] private LabeledInputField basePriceField;
+	[SerializeField] private DuoInputField     prototypeAddOnRegion;
+	[SerializeField] private NoteField         prototypeNoteRegion;
 
-	[SerializeField] private RectTransform foreground;
+	[SerializeField] private RectTransform details;
 
-	private List<PurchaseAddOnField> addOns = new List<PurchaseAddOnField>();
-	private List<PurchaseNoteField>  notes  = new List<PurchaseNoteField>();
+	private List<DuoInputField> addOns = new List<DuoInputField>();
+	private List<NoteField>  notes  = new List<NoteField>();
 
 	private Purchase purchase = new Purchase();
 
@@ -77,9 +75,9 @@ public class PurchaseDisplay : Display {
 	// PRIVATE IMPLEMENTATION
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	private void RefreshBasePrice() {
-		float newPrice = basePriceField.GetBasePrice();
+		float newPrice = Util.FloatOrZero(basePriceField.GetField());
 		for (int i = 0; i < addOns.Count; i++) {
-			newPrice += addOns[i].GetPrice();
+			newPrice += Util.FloatOrZero(addOns[i].GetField2());
 		}
 
 		if (taxable.isOn) {
@@ -112,17 +110,15 @@ public class PurchaseDisplay : Display {
 
 		taxable.QuietlySetValue(purchase.tax != 0f);
 
-		float verticalPos   = -75f;
+		float verticalPos   = 0f;
 		float regionHeight  = -40f;
-		float detailsHeight = -60f;
+		float footerHeight = -140f;
 
 		if (expanded == false) {
 
 			basePriceField.gameObject.SetActive(false);
 
-			headerBorder.SetActive(false);
-
-			detailsRegion.SetActive(false);
+			footer.SetActive(false);
 
 			for (int i = 0; i < addOns.Count; i++) {
 				addOns[i].gameObject.SetActive(false);
@@ -134,9 +130,8 @@ public class PurchaseDisplay : Display {
 		}
 		else {
 			basePriceField.gameObject.SetActive(true);
-			basePriceField.SetBasePrice(purchase.basePrice);
+			basePriceField.SetField(purchase.basePrice.ToCurrency());
 
-			headerBorder.SetActive(true);
 			verticalPos += regionHeight;
 
 			int idx = 0;
@@ -144,7 +139,7 @@ public class PurchaseDisplay : Display {
 				while (addOns.Count <= idx) {
 					GameObject go = Object.Instantiate(prototypeAddOnRegion.gameObject, prototypeAddOnRegion.transform.parent);
 
-					PurchaseAddOnField region = go.GetComponent<PurchaseAddOnField>();
+					DuoInputField region = go.GetComponent<DuoInputField>();
 					if (region != null) {
 						addOns.Add(region);
 					}
@@ -155,8 +150,8 @@ public class PurchaseDisplay : Display {
 				}
 
 				addOns[idx].gameObject.SetActive(true);
-				addOns[idx].SetDescription(purchase.addOns[idx].description);
-				addOns[idx].SetPrice      (purchase.addOns[idx].price);
+				addOns[idx].SetField1(purchase.addOns[idx].description);
+				addOns[idx].SetField2(purchase.addOns[idx].price.ToCurrency());
 
 				RectTransform rectTransform = addOns[idx].GetComponent<RectTransform>();
 				if (rectTransform != null) {
@@ -177,7 +172,7 @@ public class PurchaseDisplay : Display {
 				while (notes.Count <= idx) {
 					GameObject go = Object.Instantiate(prototypeNoteRegion.gameObject, prototypeNoteRegion.transform.parent);
 
-					PurchaseNoteField region = go.GetComponent<PurchaseNoteField>();
+					NoteField region = go.GetComponent<NoteField>();
 					if (region != null) {
 						notes.Add(region);
 					}
@@ -204,13 +199,13 @@ public class PurchaseDisplay : Display {
 				notes[idx].gameObject.SetActive(false);
 			}
 
-			detailsRegion.SetActive(true);
-			verticalPos += detailsHeight;
+			footer.SetActive(true);
+			verticalPos += footerHeight;
 		}
 
-		Vector2 sd = foreground.sizeDelta;
+		Vector2 sd = details.sizeDelta;
 		sd.y = Mathf.Abs(verticalPos);
-		foreground.sizeDelta = sd; 
+		details.sizeDelta = sd; 
 	}
 
 	private void UpdatePurchaseData() {
@@ -225,14 +220,14 @@ public class PurchaseDisplay : Display {
 			purchase.tax = 0f;
 		}
 
-		purchase.basePrice = basePriceField.GetBasePrice();
+		purchase.basePrice = Util.FloatOrZero(basePriceField.GetField());
 
 		for (int i = 0; i < addOns.Count; i++) {
 			while (i >= purchase.addOns.Count) {
 				purchase.addOns.Add(new AddOn());
 			}
 
-			purchase.addOns[i] = new AddOn(addOns[i].GetDescription(), addOns[i].GetPrice());
+			purchase.addOns[i] = new AddOn(addOns[i].GetField1(), Util.FloatOrZero(addOns[i].GetField2()));
 		}
 
 		for (int i = 0; i < notes.Count; i++) {

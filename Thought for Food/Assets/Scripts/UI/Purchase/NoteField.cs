@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PurchaseNoteField : Field {
+public class NoteField : Field {
 	[SerializeField] InputField note;
 
 	public void SetNote(string s) {

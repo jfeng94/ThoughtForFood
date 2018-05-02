@@ -58,12 +58,12 @@
      <Compile Include="Assets\Scripts\Data\Trip.cs" />
      <Compile Include="Assets\Scripts\Data\Vendor.cs" />
      <Compile Include="Assets\Scripts\Main.cs" />
-     <Compile Include="Assets\Scripts\UI\BasePriceField.cs" />
      <Compile Include="Assets\Scripts\UI\Display.cs" />
      <Compile Include="Assets\Scripts\UI\Field.cs" />
-     <Compile Include="Assets\Scripts\UI\Purchase\PurchaseAddOnField.cs" />
+     <Compile Include="Assets\Scripts\UI\LabeledInputField.cs" />
+     <Compile Include="Assets\Scripts\UI\Purchase\DuoInputField.cs" />
+     <Compile Include="Assets\Scripts\UI\Purchase\NoteField.cs" />
      <Compile Include="Assets\Scripts\UI\Purchase\PurchaseDisplay.cs" />
-     <Compile Include="Assets\Scripts\UI\Purchase\PurchaseNoteField.cs" />
      <Compile Include="Assets\Scripts\UI\ToggleField.cs" />
      <Compile Include="Assets\Scripts\UI\TripButton.cs" />
      <Compile Include="Assets\Scripts\UI\UnTabbable.cs" />
